@@ -1,0 +1,183 @@
+create table bookings(
+	id number(10) primary key,
+	name varchar2(20) not null,
+	room_no number(5) not null,
+	checkin_date date not null unique,
+	checkout_date date not null unique,
+	total_cost number(9) not null,
+	country varchar2(30) not null,
+	discounts number(3) not null,
+	created_at date default sysdate
+);
+
+create sequence booking_seq
+start with 1
+increment by 1;
+
+insert into bookings(id,name,room_no,checkin_date,checkout_date,total_cost,country,discounts)values
+  (booking_seq.nextval,'pratik',201,'11-Oct-2023','13-Oct-2023',7000,'India',15);
+
+insert into bookings(id,name,room_no,checkin_date,checkout_date,total_cost,country,discounts)values
+  (booking_seq.nextval,'raj',210,'11-Jun-2023','15-Jun-2023',5000,'India',30);
+
+insert into bookings(id,name,room_no,checkin_date,checkout_date,total_cost,country,discounts)values
+  (booking_seq.nextval,'jay',301,'12-Nov-2023','17-Nov-2023',6000,'USA',25);
+
+insert into bookings(id,name,room_no,checkin_date,checkout_date,total_cost,country,discounts)values
+  (booking_seq.nextval,'rohit',111,'23-Sep-2023','29-Sep-2023',4500,'UK',20);
+
+insert into bookings(id,name,room_no,checkin_date,checkout_date,total_cost,country,discounts)values
+  (booking_seq.nextval,'viraj',250,'12-Jun-2023','15-Jun-2023',8000,'China',30);
+
+insert into bookings(id,name,room_no,checkin_date,checkout_date,total_cost,country,discounts)values
+  (booking_seq.nextval,'lokesh',200,'23-Jun-2023','29-Jun-2023',10000,'UK',20);
+
+
+queries performed:-
+
+1. select country,count(*) from bookings group by country;
+
+2.select country,count(*) from bookings group by country order by count(*) desc;
+
+3.select * from bookings where extract(month from checkin_date)=6;
+
+4.select * from bookings where checkout_date - checkin_date > 4;
+
+5.select (checkout_date-checkin_date)*total_cost - ((checkout_date-checkin_date)*total_cost)*discounts/100,name from bookings;
+
+
+OUTPUT:-
+ create table bookings(
+  2   id number(10) primary key,
+  3   name varchar2(20) not null,
+  4   room_no number(5) not null,
+  5   check_in_date date not null unique,
+  6   check_out_date date not null unique,
+  7   cost_for_1_day number(9) not null,
+  8   country varchar2(30) not null,
+  9   Price_discount number(10) not null,
+ 10   created_at date default sysdate
+ 11   );
+
+Table created.
+
+SQL>
+SQL>  insert into booking(id,name,room_no,check_in_date,check_out_date,cost_for_1_day,country,Price_discount)values
+  2    (booking_seq.nextval,'pratik',201,'11-Oct-2023','13-Oct-2023',8000,'India',25);
+ insert into booking(id,name,room_no,check_in_date,check_out_date,cost_for_1_day,country,Price_discount)values
+             *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> drop table bookings;
+
+Table dropped.
+
+SQL> create table bookings(
+  2  id number(10) primary key,
+  3  name varchar2(20) not null,
+  4  room_no number(5) not null,
+  5  checkin_date date not null unique,
+  6  checkout_date date not null unique,
+  7  total_cost number(9) not null,
+  8  country varchar2(30) not null,
+  9  discounts number(3) not null,
+ 10  created_at date default sysdate
+ 11  );
+
+Table created.
+
+SQL> insert into bookings(id,name,room_no,checkin_date,checkout_date,total_cost,country,discounts)values
+  2    (booking_seq.nextval,'pratik',201,'11-Oct-2023','13-Oct-2023',7000,'India',15);
+
+1 row created.
+
+SQL> insert into bookings(id,name,room_no,checkin_date,checkout_date,total_cost,country,discounts)values
+  2    (booking_seq.nextval,'raj',210,'11-Jun-2023','15-Jun-2023',5000,'India',30);
+
+1 row created.
+
+SQL> insert into bookings(id,name,room_no,checkin_date,checkout_date,total_cost,country,discounts)values
+  2    (booking_seq.nextval,'jay',301,'12-Nov-2023','17-Nov-2023',6000,'USA',25);
+
+1 row created.
+
+SQL> insert into bookings(id,name,room_no,checkin_date,checkout_date,total_cost,country,discounts)values
+  2    (booking_seq.nextval,'rohit',111,'23-Sep-2023','29-Sep-2023',4500,'UK',20);
+
+1 row created.
+
+SQL> insert into bookings(id,name,room_no,checkin_date,checkout_date,total_cost,country,discounts)values
+  2    (booking_seq.nextval,'lokesh',200,'23-Jun-2023','29-Jun-2023',10000,'UK',20);
+
+1 row created.
+
+SQL> select * from bookings;
+
+        ID NAME                    ROOM_NO CHECKIN_D CHECKOUT_ TOTAL_COST COUNTRY                         DISCOUNTS CREATED_A
+---------- -------------------- ---------- --------- --------- ---------- ------------------------------ ---------- ---------
+         9 pratik                      201 11-OCT-23 13-OCT-23       7000 India                                  15 13-OCT-23
+        10 raj                         210 11-JUN-23 15-JUN-23       5000 India                                  30 13-OCT-23
+        11 jay                         301 12-NOV-23 17-NOV-23       6000 USA                                    25 13-OCT-23
+        12 rohit                       111 23-SEP-23 29-SEP-23       4500 UK                                     20 13-OCT-23
+        14 lokesh                      200 23-JUN-23 29-JUN-23      10000 UK                                     20 13-OCT-23
+
+SQL>  select country,count(*) from bookings group by country;
+
+COUNTRY                          COUNT(*)
+------------------------------ ----------
+USA                                     1
+UK                                      2
+India                                   2
+
+SQL> select country,count(*) from bookings group by country order by count(*) desc;
+
+COUNTRY                          COUNT(*)
+------------------------------ ----------
+UK                                      2
+India                                   2
+USA                                     1
+
+SQL> select country,count(*) from bookings group by country order by count(*) desc fetch next 2 rows only;
+
+COUNTRY                          COUNT(*)
+------------------------------ ----------
+India                                   2
+UK                                      2
+
+SQL> select * from bookings where extract(month from checkin_date)=6;
+
+        ID NAME                    ROOM_NO CHECKIN_D CHECKOUT_ TOTAL_COST COUNTRY                         DISCOUNTS CREATED_A
+---------- -------------------- ---------- --------- --------- ---------- ------------------------------ ---------- ---------
+        10 raj                         210 11-JUN-23 15-JUN-23       5000 India                                  30 13-OCT-23
+        14 lokesh                      200 23-JUN-23 29-JUN-23      10000 UK                                     20 13-OCT-23
+
+SQL> select * from bookings where checkout_date - checkin_date > 4;
+
+        ID NAME                    ROOM_NO CHECKIN_D CHECKOUT_ TOTAL_COST COUNTRY                         DISCOUNTS CREATED_A
+---------- -------------------- ---------- --------- --------- ---------- ------------------------------ ---------- ---------
+        11 jay                         301 12-NOV-23 17-NOV-23       6000 USA                                    25 13-OCT-23
+        12 rohit                       111 23-SEP-23 29-SEP-23       4500 UK                                     20 13-OCT-23
+        14 lokesh                      200 23-JUN-23 29-JUN-23      10000 UK                                     20 13-OCT-23
+
+
+SQL> select (checkout_date-checkin_date)*total_cost - ((checkout_date-checkin_date)*total_cost)*discounts/100 from bookings;
+
+(CHECKOUT_DATE-CHECKIN_DATE)*TOTAL_COST-((CHECKOUT_DATE-CHECKIN_DATE)*TOTAL_COST)*DISCOUNTS/100
+-----------------------------------------------------------------------------------------------
+                                                                                          11900
+                                                                                          14000
+                                                                                          22500
+                                                                                          21600
+                                                                                          48000
+
+SQL> select (checkout_date-checkin_date)*total_cost - ((checkout_date-checkin_date)*total_cost)*discounts/100,name from bookings;
+
+(CHECKOUT_DATE-CHECKIN_DATE)*TOTAL_COST-((CHECKOUT_DATE-CHECKIN_DATE)*TOTAL_COST)*DISCOUNTS/100 NAME
+----------------------------------------------------------------------------------------------- --------------------
+                                                                                          11900 pratik
+                                                                                          14000 raj
+                                                                                          22500 jay
+                                                                                          21600 rohit
+                                                                                          48000 lokesh

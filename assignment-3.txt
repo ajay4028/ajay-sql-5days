@@ -1,0 +1,112 @@
+create table users(
+id number(10) primary key,
+name varchar2(30) not null,
+username varchar2(20) not null unique,
+password varchar2(10) not null,
+bio varchar2(30),
+link varchar2(30),
+type varchar2(10) default 'public',  
+created_at date default sysdate
+);
+
+create sequence users_seq
+start with 1
+increment by 1;
+
+insert into users(id,name,username,password,bio,link,type)
+values(users_seq.nextval,'ajay shedge','ajay4028','123456','hey','insta.link','public');
+
+insert into users(id,name,username,password,bio,link,type)
+values(users_seq.nextval,'lokesh chaudhari','lokesh1415','110901',null,null,null);
+
+insert into users(id,name,username,password,bio,link,type)
+values(users_seq.nextval,'pratik kale','pratik11','121212',null,null,'public');
+
+insert into users(id,name,username,password,bio,link,type)
+values(users_seq.nextval,'sairaj ','sai@123','1011011','namaste',null,'public');
+
+
+create table posts(
+id number(10) primary key,
+caption varchar2(30),
+media varchar2(20),
+type varchar2(30) default 'image',
+user_id number(20),
+foreign key(user_id) references users(id),
+created_at date default sysdate
+);
+
+
+create sequence posts_seq
+start with 1
+increment by 1;
+
+insert into posts(id,caption,media,type,user_id)
+values(posts_seq.nextval,'Hello there..!!','IMAGE','public',1);
+
+insert into posts(id,caption,media,type,user_id)
+values(posts_seq.nextval,'Watch..!!','VIDEO','public',1);
+
+insert into posts(id,caption,media,type,user_id)
+values(posts_seq.nextval,null,'IMAGE','public',2);
+
+insert into posts(id,caption,media,type,user_id)
+values(posts_seq.nextval,null,'IMAGE AND VIDEO','private',3);
+
+insert into posts(id,caption,media,type,user_id)
+values(posts_seq.nextval,'Hello','IMAGE','public',4);
+
+insert into posts(id,caption,media,type,user_id)
+values(posts_seq.nextval,null,'IMAGE',null,5);
+
+insert into posts(id,caption,media,type,user_id)
+values(posts_seq.nextval,null,'REEL',null,3);
+
+create table comments(
+id number(10) primary key,
+user_id number(20),
+posts_id number(20),
+foreign key(user_id) references users(id),
+foreign key(posts_id) references posts(id),
+message varchar2(30),
+created_at date default sysdate
+);
+
+create sequence comments_seq
+start with 1
+increment by 1;
+
+
+assignment:-
+--------------
+1.
+
+	select u.id as user_id,c.message,c.posts_id from
+  	users u,posts p,comments c
+  	where u.id=p.user_id
+    	and p.id=c.posts_id
+    	and username='ajay4028';
+
+2. 
+	select c.user_id,c.message from
+	users u,posts p,comments c
+	where u.id=p.user_id
+	and p.id=c.posts_id
+	and trunc(p.created_at)='16-Oct-2023';
+
+3.
+
+	select username from users where trunc(created_at)='16-Oct-2023';
+	
+4. 
+	select u.username,p.caption from 
+	users u,posts p
+	where u.id=p.user_id
+	and username='pratik11'
+	;
+
+5.
+	select u.id as user_id,u.name,p.id,c.message from
+	users u,posts p,comments c
+	where p.id=c.posts_id
+	and p.id=c.user_id;
